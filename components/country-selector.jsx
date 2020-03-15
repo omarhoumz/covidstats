@@ -22,7 +22,7 @@ const CountrySelector = () => {
   if (!countriesData) return <p>Loading ...</p>
 
   return (
-    <div>
+    <>
       <h3>Selected country is:</h3>
       <Select
         name='contries'
@@ -42,7 +42,7 @@ const CountrySelector = () => {
       <Stats
         url={`https://covid19.mathdro.id/api/countries/${selectedCoutry}`}
       ></Stats>
-    </div>
+    </>
   )
 }
 
