@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import Stats from '../components/stats'
 import CountrySelector from '../components/country-selector'
+import Wrapper from '../components/wrapper'
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -10,11 +11,11 @@ const GlobalStyles = createGlobalStyle`
 `
 
 export default () => (
-  <div>
+  <Wrapper>
     <GlobalStyles />
 
     <Stats url='https://covid19.mathdro.id/api'></Stats>
 
     <CountrySelector></CountrySelector>
-  </div>
+  </Wrapper>
 )
