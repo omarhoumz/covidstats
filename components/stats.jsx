@@ -3,14 +3,14 @@ import styled, { css } from 'styled-components'
 
 const StatsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1em;
 `
 
 const StatsBlock = styled.div`
   ${({ status }) => {
     switch (status) {
-      case 'confirmed': {
+      case 'active': {
         return css`
           background-color: hsla(205, 66%, 90%, 1);
           color: hsl(205, 94%, 32%);
@@ -36,7 +36,7 @@ const StatsBlock = styled.div`
       }
     }
   }}
-  border-radius: 1em;
+  border-radius: 0.6em;
   padding: 1em;
   text-align: center;
 
@@ -58,6 +58,12 @@ const Stats = ({ url }) => {
 
   return (
     <StatsGrid>
+      <StatsBlock status='active'>
+        <h3>Active</h3>
+        <span>
+          {stats.confirmed.value - stats.deaths.value - stats.recovered.value}
+        </span>
+      </StatsBlock>
       <StatsBlock status='confirmed'>
         <h3>Confirmed</h3>
         <span>{stats.confirmed.value}</span>

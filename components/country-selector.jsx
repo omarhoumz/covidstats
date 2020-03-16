@@ -3,16 +3,24 @@ import { useState } from 'react'
 
 import useStats from '../utils/use-stats'
 import Stats from './stats'
+import Box from './box'
 
 const Select = styled.select`
   margin-block-end: 2em;
-  border: 1px solid grey;
   padding: 1em;
-  background: aliceblue;
+  background-color: rgba(0, 0, 0, 0.02);
   appearance: none;
   font-size: 1em;
   max-width: 320px;
   width: 100%;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: border 90ms cubic-bezier(0.4, 0, 0.25, 1);
+
+  :hover,
+  :focus {
+    border: 1px solid #6592b3;
+  }
 `
 
 const CountrySelector = () => {
@@ -22,8 +30,8 @@ const CountrySelector = () => {
   if (!countriesData) return <p>Loading ...</p>
 
   return (
-    <>
-      <h3>Selected country is:</h3>
+    <Box>
+      <h3>Stats for: (select a country below)</h3>
       <Select
         name='contries'
         id='contries'
@@ -42,7 +50,7 @@ const CountrySelector = () => {
       <Stats
         url={`https://covid19.mathdro.id/api/countries/${selectedCoutry}`}
       ></Stats>
-    </>
+    </Box>
   )
 }
 
