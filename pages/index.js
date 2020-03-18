@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
+import Head from 'next/head'
 
-import Stats from '../components/stats'
 import CountrySelector from '../components/country-selector'
 import Wrapper from '../components/wrapper'
 import WholeWorld from '../components/whole-world'
@@ -21,6 +21,10 @@ const GlobalStyles = createGlobalStyle`
 
 export default () => (
   <Wrapper>
+    <Head>
+      <link rel='icon' type='image/jpg' href='/c-icon.png' />
+      <title>Covid-19 Stats</title>
+    </Head>
     <GlobalStyles />
 
     <WholeWorld />

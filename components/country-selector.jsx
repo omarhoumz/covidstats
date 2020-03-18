@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useState } from 'react'
+import Head from 'next/head'
 
 import useStats from '../utils/use-stats'
 import Stats from './stats'
@@ -31,19 +32,19 @@ const CountrySelector = () => {
 
   return (
     <Box>
+      <Head>
+        <title>{selectedCoutry} - Covid-19 Stats</title>
+      </Head>
       <h3>Stats for: (select a country below)</h3>
       <Select
         name='contries'
         id='contries'
         onChange={e => setSelectedCoutry(e.target.value)}
+        value={selectedCoutry}
       >
         {Object.entries(countriesData.countries).map(([contry, code]) => (
-          <option
-            key={code}
-            selected={countriesData.iso3[code] === selectedCoutry}
-            value={countriesData.iso3[code]}
-          >
-            {contry}
+          <option key={`${contry}-${code}`} value={countriesData.iso3[code]}>
+            {`${contry} - ${countriesData.iso3[code]}`}
           </option>
         ))}
       </Select>
