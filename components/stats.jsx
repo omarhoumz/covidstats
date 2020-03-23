@@ -12,38 +12,42 @@ const StatsBlock = styled.div`
     switch (status) {
       case 'active': {
         return css`
-          background-color: hsla(205, 66%, 90%, 1);
           color: hsl(205, 94%, 32%);
         `
       }
       case 'deaths': {
         return css`
-          background-color: hsl(341, 66%, 90%);
           color: hsl(341, 91%, 38%);
         `
       }
       case 'recovered': {
         return css`
-          background-color: hsl(115, 66%, 90%);
           color: hsl(115, 91%, 25%);
         `
       }
       default: {
         return css`
-          background-color: #f2f2f2;
           color: black;
         `
       }
     }
   }}
+
+  background-color: white;
   border-radius: 0.6em;
   padding: 1em;
-  text-align: center;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
   h3 {
     margin: 0;
     margin-block-end: 0.4em;
     text-transform: capitalize;
+    color: #52606f;
+    font-size: 0.8em;
+  }
+
+  span {
+    font-size: 1.4em;
   }
 `
 
