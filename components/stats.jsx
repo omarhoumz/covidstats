@@ -1,5 +1,8 @@
 import useStats from '../utils/use-stats'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
+import { Doughnut } from 'react-chartjs-2'
+import StatsBlock, { statColors } from './ui/stats-block'
+import { useMemo } from 'react'
 
 const StatsGrid = styled.div`
   display: grid;
@@ -7,52 +10,73 @@ const StatsGrid = styled.div`
   gap: 1em;
 `
 
-const StatsBlock = styled.div`
-  ${({ status }) => {
-    switch (status) {
-      case 'active': {
-        return css`
-          color: hsl(205, 94%, 32%);
-        `
-      }
-      case 'deaths': {
-        return css`
-          color: hsl(341, 91%, 38%);
-        `
-      }
-      case 'recovered': {
-        return css`
-          color: hsl(115, 91%, 25%);
-        `
-      }
-      default: {
-        return css`
-          color: black;
-        `
-      }
-    }
-  }}
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 
-  background-color: white;
-  border-radius: 0.6em;
-  padding: 1em;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-
-  h3 {
-    margin: 0;
-    margin-block-end: 0.4em;
-    text-transform: capitalize;
-    color: #52606f;
-    font-size: 0.8em;
+  @media (min-width: 668px) {
+    flex-direction: row;
   }
+`
 
-  span {
-    font-size: 1.4em;
+const StatsWrapper = styled.div`
+  flex: 1 1 50%;
+
+  @media (min-width: 668px) {
+    margin-inline-end: 4em;
   }
 `
 
 const Stats = ({ url }) => {
   const stats = useStats(url)
+
+  const allStats = useMemo(() => {
+    if (!stats) {
+      return {}
+    }
+
+    const active = {
+      title: 'active',
+      status: 'active',
+      value: stats.confirmed.value - stats.deaths.value - stats.recovered.value,
+    }
+    const confirmed = {
+      title: 'confirmed',
+      status: 'confirmed',
+      value: stats.confirmed.value,
+    }
+    const deaths = {
+      title: 'deaths',
+      status: 'deaths',
+      value: stats.deaths.value,
+    }
+    const recovered = {
+      title: 'recovered',
+      status: 'recovered',
+      value: stats.recovered.value,
+    }
+
+    const theStats = { active, confirmed, deaths, recovered }
+
+    const labels = Object.values(theStats).map(stat => stat.title)
+
+    const datasets = [
+      {
+        data: Object.values(theStats).map(stat => stat.value),
+        backgroundColor: Object.values(theStats).map(
+          stat => statColors[stat.status],
+        ),
+      },
+    ]
+
+    return {
+      stats: theStats,
+      chartData: { labels, datasets },
+      lastUpdated: new Intl.DateTimeFormat('en-US').format(
+        new Date(stats.lastUpdate),
+      ),
+    }
+  }, [stats])
 
   if (!stats) return <p>Loading ...</p>
 
@@ -61,26 +85,26 @@ const Stats = ({ url }) => {
   }
 
   return (
-    <StatsGrid>
-      <StatsBlock status='active'>
-        <h3>Active</h3>
-        <span>
-          {stats.confirmed.value - stats.deaths.value - stats.recovered.value}
-        </span>
-      </StatsBlock>
-      <StatsBlock status='confirmed'>
-        <h3>Confirmed</h3>
-        <span>{stats.confirmed.value}</span>
-      </StatsBlock>
-      <StatsBlock status='deaths'>
-        <h3>deaths</h3>
-        <span>{stats.deaths.value}</span>
-      </StatsBlock>
-      <StatsBlock status='recovered'>
-        <h3>recovered</h3>
-        <span>{stats.recovered.value}</span>
-      </StatsBlock>
-    </StatsGrid>
+    <Wrapper>
+      <StatsWrapper>
+        <StatsGrid>
+          {Object.entries(allStats.stats).map(([key, stat]) => (
+            <StatsBlock {...stat} key={key} />
+          ))}
+        </StatsGrid>
+        <h5>Last updated: {allStats.lastUpdated}</h5>
+      </StatsWrapper>
+      <div className='chartWrapper'>
+        <Doughnut
+          data={allStats.chartData}
+          width={450}
+          height={450}
+          options={{
+            responsive: true,
+          }}
+        />
+      </div>
+    </Wrapper>
   )
 }
 
