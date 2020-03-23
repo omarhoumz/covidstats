@@ -24,6 +24,28 @@ const Select = styled.select`
   }
 `
 
+const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 668px) {
+    flex-direction: row;
+    align-items: center;
+    margin-block-end: 1.4em;
+
+    > :first-child {
+      margin-block-start: 0;
+      margin-block-end: 0;
+      margin-inline-end: 1em;
+    }
+
+    > :last-child {
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
+  }
+`
+
 const CountrySelector = () => {
   const countriesData = useStats('https://covid19.mathdro.id/api/countries')
   const [selectedCoutry, setSelectedCoutry] = useState('MAR')
@@ -35,19 +57,21 @@ const CountrySelector = () => {
       <Head>
         <title>{selectedCoutry} - Covid-19 Stats</title>
       </Head>
-      <h3>Stats for: (select a country below)</h3>
-      <Select
-        name='contries'
-        id='contries'
-        onChange={e => setSelectedCoutry(e.target.value)}
-        value={selectedCoutry}
-      >
-        {Object.entries(countriesData.countries).map(([contry, code]) => (
-          <option key={`${contry}-${code}`} value={countriesData.iso3[code]}>
-            {`${contry} - ${countriesData.iso3[code]}`}
-          </option>
-        ))}
-      </Select>
+      <Header>
+        <h3>Stats for: (select a country below)</h3>
+        <Select
+          name='contries'
+          id='contries'
+          onChange={e => setSelectedCoutry(e.target.value)}
+          value={selectedCoutry}
+        >
+          {Object.entries(countriesData.countries).map(([contry, code]) => (
+            <option key={`${contry}-${code}`} value={countriesData.iso3[code]}>
+              {`${contry} - ${countriesData.iso3[code]}`}
+            </option>
+          ))}
+        </Select>
+      </Header>
       <Stats
         url={`https://covid19.mathdro.id/api/countries/${selectedCoutry}`}
       ></Stats>
