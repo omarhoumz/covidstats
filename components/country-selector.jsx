@@ -65,16 +65,16 @@ const CountrySelector = () => {
           onChange={e => setSelectedCoutry(e.target.value)}
           value={selectedCoutry}
         >
-          {Object.entries(countriesData.countries).map(([contry, code]) => (
-            <option key={`${contry}-${code}`} value={countriesData.iso3[code]}>
-              {`${contry} - ${countriesData.iso3[code]}`}
+          {countriesData?.countries.map(({ name, iso2, iso3 }) => (
+            <option key={`${name}-${iso2}`} value={iso3}>
+              {`${name} - ${iso3}`}
             </option>
           ))}
         </Select>
       </Header>
       <Stats
         url={`https://covid19.mathdro.id/api/countries/${selectedCoutry}`}
-      ></Stats>
+      />
     </Box>
   )
 }
