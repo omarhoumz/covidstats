@@ -8,6 +8,13 @@ export const statColors = {
   confirmed: 'black',
 }
 
+export const statsChartColors = {
+  active: 'rgba(54, 162, 235, 1)',
+  deaths: 'rgba(255, 99, 132, 1)',
+  recovered: 'rgba(75, 192, 192, 1)',
+  confirmed: 'black',
+}
+
 const StatsBlockWrapper = styled.div`
   ${({ status }) => {
     switch (status) {

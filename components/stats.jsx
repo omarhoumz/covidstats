@@ -1,7 +1,7 @@
 import useStats from '../utils/use-stats'
 import styled from 'styled-components'
 import { Doughnut } from 'react-chartjs-2'
-import StatsBlock, { statColors } from './ui/stats-block'
+import StatsBlock, { statsChartColors } from './ui/stats-block'
 import { useMemo } from 'react'
 
 const StatsGrid = styled.div`
@@ -56,23 +56,31 @@ const Stats = ({ url }) => {
       value: stats.recovered.value,
     }
 
-    const theStats = { active, confirmed, deaths, recovered }
+    const chartStats = { active, deaths, recovered }
 
-    const labels = Object.values(theStats).map(stat => stat.title)
+    const labels = Object.values(chartStats).map(stat => stat.title)
 
     const datasets = [
       {
-        data: Object.values(theStats).map(stat => stat.value),
-        backgroundColor: Object.values(theStats).map(
-          stat => statColors[stat.status],
+        data: Object.values(chartStats).map(stat => stat.value),
+        backgroundColor: Object.values(chartStats).map(
+          stat => statsChartColors[stat.status],
         ),
       },
     ]
 
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    }
+
     return {
-      stats: theStats,
+      stats: { active, confirmed, deaths, recovered },
       chartData: { labels, datasets },
-      lastUpdated: new Intl.DateTimeFormat('en-US').format(
+      lastUpdated: new Intl.DateTimeFormat('en-EN', options).format(
         new Date(stats.lastUpdate),
       ),
     }
