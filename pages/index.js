@@ -25,6 +25,7 @@ export default () => (
       <link rel='icon' type='image/jpg' href='/c-icon.png' />
       <title>Covid-19 Stats</title>
     </Head>
+    <h1>Check the covid-19 stats around the world</h1>
     <GlobalStyles />
 
     <WholeWorld />
