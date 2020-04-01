@@ -63,7 +63,7 @@ const StatsBlock = memo(function StatsBlock({ status, title, value }) {
   return (
     <StatsBlockWrapper status={status}>
       <h3>{title}</h3>
-      <span>{value}</span>
+      <span>{new Intl.NumberFormat('en-EN').format(value)}</span>
     </StatsBlockWrapper>
   )
 })

@@ -78,7 +78,7 @@ const Stats = ({ url }) => {
     }
 
     return {
-      stats: { active, confirmed, deaths, recovered },
+      stats: { confirmed, active, deaths, recovered },
       chartData: { labels, datasets },
       lastUpdated: new Intl.DateTimeFormat('en-EN', options).format(
         new Date(stats.lastUpdate),
